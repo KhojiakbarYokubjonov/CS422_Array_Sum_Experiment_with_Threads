@@ -2,7 +2,7 @@
     Khojiakbar Yokubjonov
     Spring 2024
     CSC 422
-    seqSum.c
+    threadSum.c
 */
 
 #include <pthread.h>
@@ -16,7 +16,6 @@ int *a;     // array of nums
 long int *subtotal;
 long int sum;
 int arraySize, numThreads;  // input given via the cmd line
-pthread_mutex_t L;
 
 void *worker(void *arg) {
     int myId = *((int *) arg);
@@ -48,12 +47,12 @@ int main(int argc, char **argv) {
         a[i] = i;
     }
     sum = 0;
-    subtotal = (long int *) malloc(sizeof(long int) * numThreads);
     
-    pthread_mutex_init(&L, NULL);
-
     // get the current time 
     gettimeofday(&start, NULL);
+
+    // subtotal stores the sums from individual threads
+    subtotal = (long int *) malloc(sizeof(long int) * numThreads);
 
     // Allocate thread handles
     threads = (pthread_t *) malloc(numThreads * sizeof(pthread_t));
@@ -68,18 +67,20 @@ int main(int argc, char **argv) {
     for (int i = 0; i < numThreads; i++) {
         pthread_join(threads[i], NULL);
     }
-
+    
+    // Sum the subtotal values from threads
     for(int i=0; i < numThreads; i++) {
         sum += subtotal[i];
     }
     
-
     gettimeofday(&stop, NULL);
+
     printf("%ld\n", sum);
-    elapsed = ((stop.tv_sec - start.tv_sec) * 1000000+(stop.tv_usec-start.tv_usec))/1000000.0;
-    printf("time taken is %f seconds\n", elapsed);
 
-
-
-
+    // uncomment the below lines to get the timings
+    
+    // elapsed = ((stop.tv_sec - start.tv_sec) * 1000000+(stop.tv_usec-start.tv_usec))/1000000.0;
+    // printf("time taken is %f seconds\n", elapsed);
+    
+    return 0;
 }

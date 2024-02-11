@@ -35,10 +35,11 @@ int main(int argc, char **argv) {
 
     gettimeofday(&stop, NULL);
     printf("%ld\n", sum);
-    elapsed = ((stop.tv_sec - start.tv_sec) * 1000000+(stop.tv_usec-start.tv_usec))/1000000.0;
-    printf("time taken is %f seconds\n", elapsed);
 
+    // uncomment the below lines to get the timings
 
+    // elapsed = ((stop.tv_sec - start.tv_sec) * 1000000+(stop.tv_usec-start.tv_usec))/1000000.0;
+    // printf("time taken is %f seconds\n", elapsed);
 
-
+    return 0;
 }
