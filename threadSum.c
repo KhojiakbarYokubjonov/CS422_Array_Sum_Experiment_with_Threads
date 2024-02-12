@@ -17,6 +17,13 @@ long int *subtotal;
 long int sum;
 int arraySize, numThreads;  // input given via the cmd line
 
+/*
+    this function is run by each thread;
+    it calculates the sum of the subarray in each thread
+    the subarray indices are determined by the thread ID
+    Args:
+        arg - thread id;
+*/
 void *worker(void *arg) {
     int myId = *((int *) arg);
     int startpos = myId * arraySize/numThreads + 1;
